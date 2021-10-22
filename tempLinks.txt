@@ -1,0 +1,10 @@
+GET https://api.spotify.com/v1/me/playlists
+    get the discovery weekly playlist_id and discover yearly playlist_id
+ 
+GET https://api.spotify.com/v1/playlists/{playlist_id}/tracks
+    get all tracks from the discovery weekly playlist
+
+POST https://api.spotify.com/v1/playlists/{playlist_id}/tracks
+    From last call add all songs to discover weekly
+
+Put on schedule to run every monday or tuesday
