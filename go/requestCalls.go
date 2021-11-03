@@ -63,6 +63,7 @@ func Auth() {
 
 
 func BuildRequest(request_type string, url string, body []byte) (map[string]interface{}, error) {
+	fmt.Println("ASHHHHH"+access_token)
 	client := &http.Client{}
 
 	var request *http.Request
@@ -89,10 +90,11 @@ func BuildRequest(request_type string, url string, body []byte) (map[string]inte
 	// handle auth if token is expired
 	if res.StatusCode > 399 {
 		log.Println("Auth credentials expired, requesting new token...")
+		fmt.Println(res)
+		log.Println("UNSUCCESSFUL " + strconv.Itoa(res.StatusCode) + ": " + request_type + " request for " + url)
 		Auth()
 		// this could be bad if something goes wrong with auth and it keeps returning 401 code (constant recursion loop)
-		// return BuildRequest(request_type, url, body)
-		log.Fatal("UNSUCCESSFUL " + strconv.Itoa(res.StatusCode) + ": " + request_type + " request for " + url)
+		return BuildRequest(request_type, url, body)
 	} else if res.StatusCode != 200 && res.StatusCode != 201 {
 		// probably shouldn't be fatal just print for actual use
 		log.Fatal("UNSUCCESSFUL " + strconv.Itoa(res.StatusCode) + ": " + request_type + " request for " + url)
