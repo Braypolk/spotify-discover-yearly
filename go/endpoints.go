@@ -1,25 +1,25 @@
 package main
 
 import (
-	"fmt"
+	// "fmt"
 	"net/url"
 	"strings"
 )
 
 // get a map of all playlists and associated info
 func CheckPlaylists() (map[string]interface{}, error) {
-	fmt.Println("retrieving playlists")
+	// fmt.Println("retrieving playlists")
 	return BuildRequest("GET", ApiUrl+"me/playlists", nil)
 }
 
 func CheckSongs(id string) (map[string]interface{}, error) {
-	fmt.Println("retrieving songs")
+	// fmt.Println("retrieving songs")
 	return BuildRequest("GET", ApiUrl+"playlists/"+id+"/tracks?market=US", nil)
 }
 
 // given a playlist name, create an empty playlist
 func CreatePlaylist(name string) (string, error) {
-	fmt.Println("Creating playlist...")
+	// fmt.Println("Creating playlist...")
 	body := []byte(`{
 		"name": "` + name + `",
 		"description": "created with operator"
@@ -31,7 +31,7 @@ func CreatePlaylist(name string) (string, error) {
 
 func AddSongs(playlist_id string, songs []string) error {
 	// TODO: check if songs already exist
-	fmt.Println("adding songs...")
+	// fmt.Println("adding songs...")
 	for i := 0; i < len(songs); i++ {
 		songs[i] = url.QueryEscape(songs[i])
 	}

@@ -1,18 +1,14 @@
 package main
 
 import (
+	// "fmt"
 	"bytes"
 	b64 "encoding/base64"
 	"encoding/json"
-
-	// "errors"
-	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"net/url"
-
-	// "reflect"
 	"strconv"
 	"strings"
 )
@@ -59,7 +55,6 @@ func Auth() {
 
 	// I don't know why we have to cast it this way, but the other way to cast didn't work
 	AccessToken = body_map["access_token"].(string)
-	fmt.Println("Access: "+AccessToken)
 }
 
 
@@ -81,7 +76,7 @@ func BuildRequest(request_type string, url string, body []byte) (map[string]inte
 	request.Header.Add("Authorization", "Bearer "+AccessToken)
 	request.Header.Set("Content-Type", "application/json; charset=UTF-8")
 
-	fmt.Println("Sending " + request_type + "request")
+	// fmt.Println("Sending " + request_type + "request")
 	res, err := client.Do(request)
 	if err != nil {
 		log.Fatal(err)
@@ -89,8 +84,8 @@ func BuildRequest(request_type string, url string, body []byte) (map[string]inte
 
 	// if token is expired, authenticate then run the same request again
 	if res.StatusCode > 399 {
-		log.Println("Auth credentials expired, requesting new token...")
-		// log.Println("UNSUCCESSFUL " + strconv.Itoa(res.StatusCode) + ": " + request_type + " request for " + url)
+		// fmt.Println("Auth credentials expired, requesting new token...")
+		// fmt.Println("UNSUCCESSFUL " + strconv.Itoa(res.StatusCode) + ": " + request_type + " request for " + url)
 		Auth()
 
 		// I really wanted this to be recursive, like this
@@ -109,7 +104,7 @@ func BuildRequest(request_type string, url string, body []byte) (map[string]inte
 		request.Header.Add("Authorization", "Bearer "+AccessToken)
 		request.Header.Set("Content-Type", "application/json; charset=UTF-8")
 	
-		fmt.Println("Sending " + request_type + "request")
+		// fmt.Println("Sending " + request_type + "request")
 		res, err = client.Do(request)
 		if err != nil {
 			log.Fatal(err)
@@ -134,6 +129,6 @@ func BuildRequest(request_type string, url string, body []byte) (map[string]inte
 		log.Println(err)
 	}
 
-	fmt.Println(request_type + " request finished")
+	// fmt.Println(request_type + " request finished")
 	return body_map, nil
 }

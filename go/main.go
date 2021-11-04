@@ -3,9 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
-	// "reflect"
 	"strconv"
-	"strings"
 	"time"
 )
 
@@ -15,8 +13,7 @@ var BasicCreds string = ClientId +":"+ ClientSecret
 var ApiUrl string = "https://api.spotify.com/v1/"
 	
 func main() {
-	fmt.Println(BasicCreds)
-	fmt.Println(RefreshToken)
+	// get all playlists in account
 	playlists, err := CheckPlaylists()
 	if err != nil {
 		log.Fatal(err)
@@ -25,16 +22,14 @@ func main() {
 	var disco_week_id string
 	var disco_year_id string
 
-	// convert to slice for subset check
+	// search through playlists to find Discover Weekly and this year's Discover Yearly
 	for _, p := range playlists["items"].([]interface{}) {
 		name := p.(map[string]interface{})["name"].(string)
 		id := p.(map[string]interface{})["id"].(string)
-		if(strings.Contains(name, "Discover Weekly")){
+		if(name == "Discover Weekly"){
 			disco_week_id = id
-		} else if (strings.Contains(name, "Discover Yearly")) {
-			if (strings.Contains(name, strconv.Itoa(time.Now().Year()))) {
-				disco_year_id = id;
-			}
+		} else if (name == (strconv.Itoa(time.Now().Year())+" Discover Yearly")) {
+			disco_year_id = id;
 		}
 	}
 
@@ -56,10 +51,7 @@ func main() {
 		song_names = append(song_names, name)
 		songs_to_add = append(songs_to_add, uri)
 	}
-
-	// keep text log of file names
-	WriteSliceToFile(song_names, "pastSongs/"+strconv.Itoa(time.Now().Year())+".yaml")
-
+	
 	// finally, add songs to discover yearly playlist
 	if len(songs_to_add) != 0 {
 		err := AddSongs(disco_year_id, songs_to_add)
@@ -67,4 +59,9 @@ func main() {
 			log.Fatal(err)
 		}
 	}
+
+	// WriteSliceToFile(song_names, "pastSongs/"+strconv.Itoa(time.Now().Year())+".yaml")
+	for _, i := range song_names {
+        fmt.Println(i)
+    }
 }
