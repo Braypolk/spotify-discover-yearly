@@ -87,15 +87,16 @@ func BuildRequest(request_type string, url string, body []byte) (map[string]inte
 		log.Fatal(err)
 	}
 
-	// handle auth if token is expired
+	// if token is expired, authenticate then run the same request again
 	if res.StatusCode > 399 {
 		log.Println("Auth credentials expired, requesting new token...")
-		fmt.Println(res)
-		log.Println("UNSUCCESSFUL " + strconv.Itoa(res.StatusCode) + ": " + request_type + " request for " + url)
-		// this could be bad if something goes wrong with auth and it keeps returning 401 code (constant recursion loop)
+		// log.Println("UNSUCCESSFUL " + strconv.Itoa(res.StatusCode) + ": " + request_type + " request for " + url)
 		Auth()
 
-		// I really wanted this to be recursive, but it's not working for some reason and I don't feel like dealing with it
+		// I really wanted this to be recursive, like this
+		// return BuildRequest(request_type, url, body)
+		// but it's not working for some reason and I don't feel like dealing with it
+
 		if body == nil {
 			request, err = http.NewRequest(request_type, url, nil)
 		} else {
@@ -115,8 +116,8 @@ func BuildRequest(request_type string, url string, body []byte) (map[string]inte
 		}
 
 	} else if res.StatusCode != 200 && res.StatusCode != 201 {
-		// probably shouldn't be fatal just print for actual use
-		log.Fatal("UNSUCCESSFUL " + strconv.Itoa(res.StatusCode) + ": " + request_type + " request for " + url)
+		// Literally no idea why this would happen
+		log.Fatal("UNSUCCESSFUL in BuildRequest" + strconv.Itoa(res.StatusCode) + ": " + request_type + " request for " + url)
 	}
 
 	defer res.Body.Close()

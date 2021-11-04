@@ -58,7 +58,7 @@ func main() {
 	}
 
 	// keep text log of file names
-	WriteSliceToFile(song_names, strconv.Itoa(time.Now().Year())+".yaml")
+	WriteSliceToFile(song_names, "pastSongs/"+strconv.Itoa(time.Now().Year())+".yaml")
 
 	// finally, add songs to discover yearly playlist
 	if len(songs_to_add) != 0 {
