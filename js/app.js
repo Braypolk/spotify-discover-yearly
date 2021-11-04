@@ -1,7 +1,7 @@
 var request = require('request');
 var a = require("./env.js");
 
-var y = (new Date().getFullYear()).toString()
+var year = (new Date().getFullYear()).toString()
 var client_id = a.client_id;
 var client_secret = a.client_secret;
 var refresh_token = a.refresh_token;

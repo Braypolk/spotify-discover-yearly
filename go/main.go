@@ -1,16 +1,18 @@
 package main
+
 import (
 	"fmt"
 	"log"
+	// "reflect"
+	"strconv"
 	"strings"
 	"time"
-	"strconv"
 )
 
-var access_token string
+var AccessToken string
 
 var BasicCreds string = ClientId +":"+ ClientSecret
-var ApiUrl string = "https://accounts.spotify.com/api/token"
+var ApiUrl string = "https://api.spotify.com/v1/"
 	
 func main() {
 	fmt.Println(BasicCreds)
@@ -27,7 +29,7 @@ func main() {
 	for _, p := range playlists["items"].([]interface{}) {
 		name := p.(map[string]interface{})["name"].(string)
 		id := p.(map[string]interface{})["id"].(string)
-		if(strings.Contains(name, "Discovery Weekly")){
+		if(strings.Contains(name, "Discover Weekly")){
 			disco_week_id = id
 		} else if (strings.Contains(name, "Discover Yearly")) {
 			if (strings.Contains(name, strconv.Itoa(time.Now().Year()))) {
@@ -36,25 +38,31 @@ func main() {
 		}
 	}
 
-	fmt.Println(disco_year_id)
-
 	// TODO: if discoyear or week nil do something about it
 
 	songs, err := CheckSongs(disco_week_id)
-	var songs_to_add []string
+	if err != nil {
+		log.Print("ERROR ON CHECKSONGS: ")
+		log.Fatal(err)
+	}
 
+	var songs_to_add []string
+	var song_names []string
 
 	// store each song from playlist in spotify to songs_to_add
 	for _, item := range songs["items"].([]interface{}) {
-		// fmt.Println(item.(map[string]interface{}))
-		// name := item.(map[string]interface{})["name"].(string)
-		// id := item.(map[string]interface{})["id"].(string)
-		uri := item.(map[string]interface{})["uri"].(string)
+		name := (item.(map[string]interface{})["track"].(map[string]interface{})["name"]).(string)
+		uri := (item.(map[string]interface{})["track"].(map[string]interface{})["uri"]).(string)
+		song_names = append(song_names, name)
 		songs_to_add = append(songs_to_add, uri)
 	}
 
+	// keep text log of file names
+	WriteSliceToFile(song_names, strconv.Itoa(time.Now().Year())+".yaml")
+
+	// finally, add songs to discover yearly playlist
 	if len(songs_to_add) != 0 {
-		err := AddSongs("1Cq8eVWuqx0RJ4XHMUlghj", songs_to_add)
+		err := AddSongs(disco_year_id, songs_to_add)
 		if err != nil {
 			log.Fatal(err)
 		}

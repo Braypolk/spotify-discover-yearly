@@ -24,7 +24,7 @@ func Auth() {
 	form.Set("refresh_token", RefreshToken)
 
 	client := &http.Client{}
-	request, err := http.NewRequest("POST", ApiUrl, strings.NewReader(form.Encode()))
+	request, err := http.NewRequest("POST", "https://accounts.spotify.com/api/token", strings.NewReader(form.Encode()))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -58,12 +58,12 @@ func Auth() {
 	}
 
 	// I don't know why we have to cast it this way, but the other way to cast didn't work
-	access_token = body_map["access_token"].(string)
+	AccessToken = body_map["access_token"].(string)
+	fmt.Println("Access: "+AccessToken)
 }
 
 
 func BuildRequest(request_type string, url string, body []byte) (map[string]interface{}, error) {
-	fmt.Println("ASHHHHH"+access_token)
 	client := &http.Client{}
 
 	var request *http.Request
@@ -78,7 +78,7 @@ func BuildRequest(request_type string, url string, body []byte) (map[string]inte
 	if err != nil {
 		log.Fatal(err)
 	}
-	request.Header.Add("Authorization", "Bearer "+access_token)
+	request.Header.Add("Authorization", "Bearer "+AccessToken)
 	request.Header.Set("Content-Type", "application/json; charset=UTF-8")
 
 	fmt.Println("Sending " + request_type + "request")
@@ -92,9 +92,28 @@ func BuildRequest(request_type string, url string, body []byte) (map[string]inte
 		log.Println("Auth credentials expired, requesting new token...")
 		fmt.Println(res)
 		log.Println("UNSUCCESSFUL " + strconv.Itoa(res.StatusCode) + ": " + request_type + " request for " + url)
-		Auth()
 		// this could be bad if something goes wrong with auth and it keeps returning 401 code (constant recursion loop)
-		return BuildRequest(request_type, url, body)
+		Auth()
+
+		// I really wanted this to be recursive, but it's not working for some reason and I don't feel like dealing with it
+		if body == nil {
+			request, err = http.NewRequest(request_type, url, nil)
+		} else {
+			request, err = http.NewRequest(request_type, url, bytes.NewBuffer(body))
+		}
+	
+		if err != nil {
+			log.Fatal(err)
+		}
+		request.Header.Add("Authorization", "Bearer "+AccessToken)
+		request.Header.Set("Content-Type", "application/json; charset=UTF-8")
+	
+		fmt.Println("Sending " + request_type + "request")
+		res, err = client.Do(request)
+		if err != nil {
+			log.Fatal(err)
+		}
+
 	} else if res.StatusCode != 200 && res.StatusCode != 201 {
 		// probably shouldn't be fatal just print for actual use
 		log.Fatal("UNSUCCESSFUL " + strconv.Itoa(res.StatusCode) + ": " + request_type + " request for " + url)
