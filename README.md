@@ -1,5 +1,7 @@
 # Spotify Discover Yearly
 
+:exclamation:**Please note the Go version is the more complete version of this project and should be used as the default. The JS version should be used for fun and not an actual deployment**:exclamation:
+
 ## Spotify Setup 
 1. Sign up for / Log in to [Spotify Dev Account](https://developer.spotify.com/dashboard) with the Spotify account you want to use
 2. Create a new app
