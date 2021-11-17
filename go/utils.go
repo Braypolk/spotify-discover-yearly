@@ -2,6 +2,7 @@ package main
 
 import "log"
 
+// get songs 
 func FormattedPlaylistSongs(playlist_id string) map[string]string {
 	songs, err := CheckSongs(playlist_id)
 	if err != nil {

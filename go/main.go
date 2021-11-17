@@ -57,32 +57,25 @@ func main() {
 	songs_to_add := FormattedPlaylistSongs(disco_week_id)
 	songs_in_yearly := FormattedPlaylistSongs(disco_year_id)
 
-	fmt.Println(disco_year_id)
-	fmt.Println(len(songs_in_yearly))
-
 	// remove any duplicates in songs_to_add
 	for id, _ := range songs_to_add {
-		fmt.Print("Songs_to_add song id: " + id + "  :  ")
-		if v, ok := songs_in_yearly[id]; ok {
+		if _, ok := songs_in_yearly[id]; ok {
 			delete(songs_to_add, id)
-			fmt.Println("Songs_in_yearly"+v)
-		} else {
-			fmt.Println("Not a dup")
 		}
 	}
 
 	// finally, add songs to discover yearly playlist
-	// if len(songs_to_add) != 0 {
-	// 	err := AddSongs(disco_year_id, songs_to_add)
-	// 	if err != nil {
-	// 		log.Fatal(err)
-	// 	}
+	if len(songs_to_add) != 0 {
+		err := AddSongs(disco_year_id, songs_to_add)
+		if err != nil {
+			log.Fatal(err)
+		}
 
-	// 	// WriteSliceToFile(song_names, "pastSongs/"+strconv.Itoa(time.Now().Year())+".yaml")
-	// 	// for _, i := range songs_to_add {
-	// 	// 	fmt.Println(i)
-	// 	// }
-	// } else {
-	// 	fmt.Println("No songs to add")
-	// }
+		// WriteSliceToFile(song_names, "pastSongs/"+strconv.Itoa(time.Now().Year())+".yaml")
+		for _, i := range songs_to_add {
+			fmt.Println(i)
+		}
+	} else {
+		fmt.Println("No songs to add")
+	}
 }
