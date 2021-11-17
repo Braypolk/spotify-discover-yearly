@@ -6,6 +6,11 @@ import (
 	"strings"
 )
 
+func GetUser() (string, error) {
+	response, err := BuildRequest("GET", ApiUrl+"me", nil)
+	return response["id"].(string), err
+}
+
 // get a map of all playlists and associated info
 func CheckPlaylists() (map[string]interface{}, error) {
 	// fmt.Println("retrieving playlists")
@@ -22,10 +27,11 @@ func CreatePlaylist(name string) (string, error) {
 	// fmt.Println("Creating playlist...")
 	body := []byte(`{
 		"name": "` + name + `",
-		"description": "created with operator"
+		"description": "compilaion of your discovor weekly songs"
 	  }`)
 
-	response, err := BuildRequest("POST", ApiUrl+"users/ny741pp6gedqst6z0evsk3ymj/playlists", body)
+	//   BUG: need to use actual user instead of hardcode
+	response, err := BuildRequest("POST", ApiUrl+"users/"+UserId+"/playlists", body)
 	return response["id"].(string), err
 }
 

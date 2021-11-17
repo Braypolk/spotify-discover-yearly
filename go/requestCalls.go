@@ -57,7 +57,6 @@ func Auth() {
 	AccessToken = body_map["access_token"].(string)
 }
 
-
 func BuildRequest(request_type string, url string, body []byte) (map[string]interface{}, error) {
 	client := &http.Client{}
 
@@ -97,13 +96,13 @@ func BuildRequest(request_type string, url string, body []byte) (map[string]inte
 		} else {
 			request, err = http.NewRequest(request_type, url, bytes.NewBuffer(body))
 		}
-	
+
 		if err != nil {
 			log.Fatal(err)
 		}
 		request.Header.Add("Authorization", "Bearer "+AccessToken)
 		request.Header.Set("Content-Type", "application/json; charset=UTF-8")
-	
+
 		// fmt.Println("Sending " + request_type + "request")
 		res, err = client.Do(request)
 		if err != nil {
