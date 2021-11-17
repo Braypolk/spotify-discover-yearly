@@ -1,6 +1,13 @@
 # Spotify Discover Yearly
 
-:exclamation:**Please note the Go version is the more complete version of this project and should be used as the default. The JS version should be used for fun and not an actual deployment**:exclamation:
+:exclamation:**Please note the Go version is the complete version of this project and should be used as the default. The JS version is incomplete and should be used for fun, not an actual deployment**:exclamation:
+
+## Requirements
+Spotify Account
+Go
+Node
+NPM/Yarn package manager
+AWS Account(if you want to deploy it there)
 
 ## Spotify Setup 
 1. Sign up for / Log in to [Spotify Dev Account](https://developer.spotify.com/dashboard) with the Spotify account you want to use
@@ -44,13 +51,22 @@ I used [AWS](https://aws.amazon.com/), specifically their lambda functions
     - python runtime
     - I used arm64 architecture because why not (this is where you would make sure you have the correct runtime if you use go)
 
-I followed [this article](https://medium.com/@biancanhinojosa/running-executables-in-aws-lambda-dc79b8f33ec7). Which is basically just `aws/labmba_function.py` and the commands in `awszip.sh`
+I followed [this article](https://medium.com/@biancanhinojosa/running-executables-in-aws-lambda-dc79b8f33ec7). Which is basically just the file `aws/labmba_function.py` and the commands in `awszip.sh`
 
-**So if you finished the Setup and Next Steps portions and created a labmda function, you should just be able to run `awszip.sh` and upload the zip to your lambda function.**
+To make this run weekly, 
+- add a trigger to your function
+- select EventBridge (CloudWatch Events)
+- create a new rule and give it a name and description
+- rule type is schedule expression, and for the expression put cron(0 12 ? * TUE *)
+    - this will run the function every Tuesday at 12. I made it Tuesday beacuse idk what timezone aws is pulling from (discover weekly refreshed Monday morning-ish)
+- hit add and the function should be good to go
 
-if you cannot run awszip.sh, run `chmod 755 awszip.sh`
 
-I did have some weird issues with google chrome when trying to upload the zip file. So if it's not letting you, try a different browser. Based on AWS [pricing docs](https://aws.amazon.com/lambda/pricing/) this is well under the free tier limits. So now we have easy automation for free! (or at least hopefully, you should check the docs to make sure pricing hasn't changed)
+**So if you finished the Setup and Next Steps portions and created a labmda function, you should just be able to run `awszip.sh` and upload the zip file (aws/awsSpotify.zip) to your lambda function.**
+
+If you cannot run awszip.sh, run `chmod 755 awszip.sh` and then run awszip.sh again
+
+I did have some weird issues with google chrome when trying to upload the zip file. So if it's not letting you upload, try a different browser. Based on AWS [pricing docs](https://aws.amazon.com/lambda/pricing/) this is well under the free tier limits. So now we have easy automation for free! (or at least hopefully, check the docs to make sure pricing hasn't changed)
 
 
 ---
