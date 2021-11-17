@@ -56,8 +56,5 @@ I did have some weird issues with google chrome when trying to upload the zip fi
 ---
 
 Todo:
-- check if yearly playlist already exists, if not create new one
 - auto populate new refresh token to env file from running get-new-refresh.js
-- check for duplicate songs before adding
-- it would be nice to just have one env file
-- notification when finished (prob just an email)
+- notification of log output on run (prob just an email)
