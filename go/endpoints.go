@@ -35,13 +35,16 @@ func CreatePlaylist(name string) (string, error) {
 	return response["id"].(string), err
 }
 
-func AddSongs(playlist_id string, songs []string) error {
-	// TODO: check if songs already exist
+func AddSongs(playlist_id string, songs map[string]string) error {
 	// fmt.Println("adding songs...")
-	for i := 0; i < len(songs); i++ {
-		songs[i] = url.QueryEscape(songs[i])
+	var ids []string
+
+	for id, _ := range songs {
+		songs[id] = url.QueryEscape(songs[id])
+		ids = append(ids, id)
 	}
-	result := strings.Join(songs, ",")
+
+	result := strings.Join(ids, ",")
 	_, err := BuildRequest("POST", ApiUrl+"playlists/"+playlist_id+"/tracks?uris="+result, nil)
 	return err
 }
