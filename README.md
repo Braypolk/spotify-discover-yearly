@@ -9,6 +9,8 @@ Node
 NPM/Yarn package manager
 AWS Account(if you want to deploy it there)
 
+First thing to do is run `./beginning.sh` file. If it doesn't run, run `chmod 755 beginning.sh` and then run ./beginning.sh again. This will make sure you have the requirements above, and install some dependencies
+
 ## Spotify Setup 
 1. Sign up for / Log in to [Spotify Dev Account](https://developer.spotify.com/dashboard) with the Spotify account you want to use
 2. Create a new app
