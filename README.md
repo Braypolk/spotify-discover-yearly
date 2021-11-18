@@ -29,7 +29,7 @@ You can do this same process if you need a new token, yuor token somehow expired
 This will go through the authentication process with your account so the api has authorization to interact with your account.
 You will then see your refresh token, check the terminal if it doesn't show on the webpage
 
- **copy that to env file**. 
+ **copy refresh token to env file**. 
 
 **DON'T SHARE THIS REFRESH TOKEN OR PUSH IT TO REPO** it should already be ignored from git, but you may want to check to be sure. Anyone who has this key will be able to view and edit lots of data in your spotify account until a new refresh key is generated.
 
