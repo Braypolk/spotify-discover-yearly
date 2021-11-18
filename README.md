@@ -10,6 +10,7 @@ Go
 Node
 NPM/Yarn package manager
 
+These commands should work fine with Mac/Linux. If using windows they should work if you use WSL.
 
 First thing to do is run `./beginning.sh` file. If it doesn't run, run `chmod 755 beginning.sh` and then run ./beginning.sh again. This will make sure you have the requirements above, and install some dependencies
 
@@ -18,7 +19,7 @@ First thing to do is run `./beginning.sh` file. If it doesn't run, run `chmod 75
 2. Create a new app
 3. Click 'Edit Settings' button and add http://localhost:8888/callback/ to 'Redirect URIs'
     - if you end up using a different redirect uri be sure to change `redirect_uri` in get-new-refresh.js
-4. **Copy Client ID and Client Secret to go/env.go file**
+4. **Copy Client ID and Client Secret to go/env.go and js/env.js files**
 
 
 ## Next Steps
@@ -29,7 +30,7 @@ You can do this same process if you need a new token, yuor token somehow expired
 This will go through the authentication process with your account so the api has authorization to interact with your account.
 You will then see your refresh token, check the terminal if it doesn't show on the webpage
 
- **copy refresh token to go/env.go file**. 
+ **copy refresh token to go/env.go and js/env.js files**. 
 
 **DON'T SHARE THIS REFRESH TOKEN OR PUSH IT TO REPO** it should already be ignored from git, but you may want to check to be sure. Anyone who has this key will be able to view and edit lots of data in your spotify account until a new refresh key is generated.
 
