@@ -3,6 +3,7 @@ var request = require('request');
 var cors = require('cors');
 var querystring = require('querystring');
 var cookieParser = require('cookie-parser');
+var open = require('open')
 var a = require("./env.js");
 
 var client_id = a.client_id;
@@ -32,6 +33,8 @@ app.use(express.static(__dirname + '/public'))
   .use(cors())
   .use(cookieParser());
 
+open("http://localhost:8888/")
+
 app.get('/login', function (req, res) {
 
   var state = generateRandomString(16);
@@ -50,7 +53,6 @@ app.get('/login', function (req, res) {
 });
 
 app.get('/callback', function (req, res) {
-
   // your application requests refresh and access tokens
   // after checking the state parameter
 
@@ -84,7 +86,7 @@ app.get('/callback', function (req, res) {
         var access_token = body.access_token,
           refresh_token = body.refresh_token;
 
-        console.log(refresh_token);
+        console.log("Refresh Token: " + refresh_token);
       }
     });
   }

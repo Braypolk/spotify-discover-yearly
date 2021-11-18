@@ -3,7 +3,7 @@
 :exclamation:**Please note the Go version is the complete version of this project and should be used as the default. The JS version is incomplete and should be used for fun, not an actual deployment**:exclamation:
 
 ## Requirements
-Spotify Account with Discover Weekly Playlist add to your library (hearted)
+Spotify Account
 AWS Account(if you want to deploy it there)
 
 Go
@@ -15,22 +15,25 @@ These commands should work fine with Mac/Linux. If using windows they should wor
 First thing to do is run `./beginning.sh` file. If it doesn't run, run `chmod 755 beginning.sh` and then run ./beginning.sh again. This will make sure you have the requirements above, and install some dependencies
 
 ## Spotify Setup 
-1. Sign up for / Log in to [Spotify Dev Account](https://developer.spotify.com/dashboard) with the Spotify account you want to use
-2. Create a new app
-3. Click 'Edit Settings' button and add http://localhost:8888/callback/ to 'Redirect URIs'
+1. In Spotify itself, go to your Discover Weekly playlist and first make sure it is added to your library (click heart to make it green), then profile (click the three dots > add to profile)
+2. Sign up for / Log in to [Spotify Dev Account](https://developer.spotify.com/dashboard) with the Spotify account you want to use
+3. Create a new app
+4. Click 'Edit Settings' button and add http://localhost:8888/callback/ to 'Redirect URIs'
     - if you end up using a different redirect uri be sure to change `redirect_uri` in get-new-refresh.js
-4. **Copy Client ID and Client Secret to go/env.go and js/env.js files**
+5. **Copy Client ID and Client Secret to go/env.go and js/env.js files**
 
 
 ## Next Steps
-To get your refresh token, run `node js/get-new-refresh.js` and go to http://localhost:8888
+To get your refresh token, run `node js/get-new-refresh.js` and if it doesn't automatically open, go to http://localhost:8888
 
-You can do this same process if you need a new token, yuor token somehow expired, or it just isn't working.
 
 This will go through the authentication process with your account so the api has authorization to interact with your account.
-You will then see your refresh token, check the terminal if it doesn't show on the webpage
 
- **copy refresh token to go/env.go and js/env.js files**. 
+Check the terminal for the refresh token
+
+**copy refresh token to go/env.go and js/env.js files**. 
+
+You can do this same process if you need a new token, yuor token somehow expired, or it just isn't working.
 
 **DON'T SHARE THIS REFRESH TOKEN OR PUSH IT TO REPO** it should already be ignored from git, but you may want to check to be sure. Anyone who has this key will be able to view and edit lots of data in your spotify account until a new refresh key is generated.
 

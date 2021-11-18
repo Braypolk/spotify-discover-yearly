@@ -42,7 +42,7 @@ func main() {
 
 	// in case discover weekly doesn't exist for some reason
 	if disco_week_id == "" {
-		log.Fatal("Could not find discover weekly playlist, be sure it is added to your library by hearting the playlist")
+		log.Fatal("Could not find discover weekly playlist, be sure it is first added to your library (by hearting the playlist) then added to your profile (three dots > add to profile)")
 	}
 	// create yearly playlist if it doesn't exist
 	if disco_year_id == "" {
