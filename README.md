@@ -3,7 +3,7 @@
 :exclamation:**Please note the Go version is the complete version of this project and should be used as the default. The JS version is incomplete and should be used for fun, not an actual deployment**:exclamation:
 
 ## Requirements
-Spotify Account
+Spotify Account with Discover Weekly Playlist add to your library (hearted)
 AWS Account(if you want to deploy it there)
 
 Go

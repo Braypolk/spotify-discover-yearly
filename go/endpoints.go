@@ -51,9 +51,8 @@ func CreatePlaylist(name string) (string, error) {
 		"name": "` + name + `",
 		"description": "compilaion of your discovor weekly songs"
 	  }`)
-
-	//   BUG: need to use actual user instead of hardcode
-	response, err := BuildRequest("POST", ApiUrl+"users/"+UserId+"/playlists", body)
+	  
+	  response, err := BuildRequest("POST", ApiUrl+"users/"+UserId+"/playlists", body)
 	return response["id"].(string), err
 }
 
