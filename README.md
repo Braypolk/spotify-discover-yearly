@@ -25,28 +25,11 @@ First thing to do is run `./beginning.sh` file. If it doesn't run, run `chmod 75
 If refresh token has not been created, somehow expired, or just isn't working, run `node js/get-new-refresh.js` and go to http://localhost:8888
 
 This will go through the authentication process with your account so the api has authorization to interact with your account.
-You will then see your refresh token, copy that to env files. 
+You will then see your refresh token, check the terminal if it doesn't show on the webpage, copy that to env file. 
 
 **DON'T SHARE THIS REFRESH TOKEN OR PUSH IT TO REPO** anyone who has this key will be able to view and edit pretty much anything in your spotify account until a new refresh key is generated.
 
 Note: refresh token should last forever, so you should only need to do this once. But sometimes things act weird so this is an easy way to get a new one
-
-I think that's all the setup required
-
-
-## Main Stuff
-For JS solution, run `node app.js`
-
-For Go solution, 
-- For the first time or if you made any changes to the go files, run `go build .`
-    - to build for different runtimes (helpful for deploying to cloud) use `env GOOS=linux GOARCH=arm64 go build .` where linux and arm64 would be the params you change out
-    - you can check current params with `go env GOOS GOARCH`
-    - check list of different configs with `go tool dist list`
-- Then you will have an executable, so you can run `./spotify-discover-yearly` on Mac/Linux or `./spotify-discover-yearly.exe` on Windows
-
-This should authenticate with previously retreieved refresh token that you definitely already put in the env files. Then it will extract songs from your discover weekly playlist and put them into your fancy new discover yearly playlist.
-
-Unless you want to remember to manually run this once a week it would be best to put on a cron job on a raspberry pi or somewhere in the cloud.
 
 ## How I automated it
 I used [AWS](https://aws.amazon.com/), specifically their lambda functions
@@ -66,11 +49,32 @@ To make this run weekly,
 - hit add and the function should be good to go
 
 
-**So if you finished the Setup and Next Steps portions and created a labmda function, you should just be able to run `awszip.sh` and upload the zip file (aws/awsSpotify.zip) to your lambda function.**
+Back in your spotify-discover-yearly directory, run `awszip.sh` in the terminal. If you cannot run awszip.sh, run `chmod 755 awszip.sh` and then run awszip.sh again
 
-If you cannot run awszip.sh, run `chmod 755 awszip.sh` and then run awszip.sh again
+Now upload the zip file (aws/awsSpotify.zip) to your lambda function with the Upload from > .zip file option.
+
+Once complete, go to the test tab and use the hello-world template. Hit test. We just need the function to trigger, the values don't really matter. 
+
+If everything worked properly you can now go to your spotify account and check if there is a new discover yearly playlist. It should include all the songs in your current discover weekly. Check the logs (monitor>logs) to make sure there were no errors as well.
 
 I did have some weird issues with google chrome when trying to upload the zip file. So if it's not letting you upload, try a different browser. Based on AWS [pricing docs](https://aws.amazon.com/lambda/pricing/) this is well under the free tier limits. So now we have easy automation for free! (or at least hopefully, check the docs to make sure pricing hasn't changed)
+
+
+## Manually building and running
+For those who want to play around with the code, here's some notes:
+For JS solution, run `node js/app.js` (Again, the JS solution is not fully featured and things may not work properly. Use go solution for actual usage)
+
+For Go solution, 
+- `cd go`
+- For the first time or if you made changes to any of the go files, run `go build .`
+    - to build for different runtimes (helpful for deploying to cloud) use `env GOOS=linux GOARCH=arm64 go build .` where linux and arm64 would be the params you change out
+    - you can check current params with `go env GOOS GOARCH`
+    - check list of different configs with `go tool dist list`
+- Then you will have an executable, to manually run, you can do `./spotify-discover-yearly` on Mac/Linux or `./spotify-discover-yearly.exe` on Windows
+
+This should authenticate with previously retreieved refresh token that you definitely already put in the env files. Then it will extract songs from your discover weekly playlist and put them into your fancy new discover yearly playlist.
+
+Unless you want to remember to manually run this once a week it would be best to put on a cron job in the cloud. This process is explained below.
 
 
 ---
