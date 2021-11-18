@@ -18,7 +18,7 @@ First thing to do is run `./beginning.sh` file. If it doesn't run, run `chmod 75
 2. Create a new app
 3. Click 'Edit Settings' button and add http://localhost:8888/callback/ to 'Redirect URIs'
     - if you end up using a different redirect uri be sure to change `redirect_uri` in get-new-refresh.js
-4. **Copy Client ID and Client Secret to env file**
+4. **Copy Client ID and Client Secret to go/env.go file**
 
 
 ## Next Steps
@@ -29,7 +29,7 @@ You can do this same process if you need a new token, yuor token somehow expired
 This will go through the authentication process with your account so the api has authorization to interact with your account.
 You will then see your refresh token, check the terminal if it doesn't show on the webpage
 
- **copy refresh token to env file**. 
+ **copy refresh token to go/env.go file**. 
 
 **DON'T SHARE THIS REFRESH TOKEN OR PUSH IT TO REPO** it should already be ignored from git, but you may want to check to be sure. Anyone who has this key will be able to view and edit lots of data in your spotify account until a new refresh key is generated.
 
@@ -66,7 +66,7 @@ I did have some weird issues with google chrome when trying to upload the zip fi
 
 ## Manually building and running
 For those who want to play around with the code, here's some notes:
-For JS solution, run `node js/app.js` (Again, the JS solution is not fully featured and things may not work properly. Use go solution for actual usage)
+For JS solution, you will need to copy the values in go/env.go into js/env.js. Then you can run `node js/app.js` (Again, the JS solution is not fully featured and things may not work properly. Use go solution for actual usage)
 
 For Go solution, 
 - `cd go`
