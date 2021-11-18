@@ -18,16 +18,20 @@ First thing to do is run `./beginning.sh` file. If it doesn't run, run `chmod 75
 2. Create a new app
 3. Click 'Edit Settings' button and add http://localhost:8888/callback/ to 'Redirect URIs'
     - if you end up using a different redirect uri be sure to change `redirect_uri` in get-new-refresh.js
-4. Copy Client ID and Client Secret to env files
+4. **Copy Client ID and Client Secret to env file**
 
 
 ## Next Steps
-If refresh token has not been created, somehow expired, or just isn't working, run `node js/get-new-refresh.js` and go to http://localhost:8888
+To get your refresh token, run `node js/get-new-refresh.js` and go to http://localhost:8888
+
+You can do this same process if you need a new token, yuor token somehow expired, or it just isn't working.
 
 This will go through the authentication process with your account so the api has authorization to interact with your account.
-You will then see your refresh token, check the terminal if it doesn't show on the webpage, copy that to env file. 
+You will then see your refresh token, check the terminal if it doesn't show on the webpage
 
-**DON'T SHARE THIS REFRESH TOKEN OR PUSH IT TO REPO** anyone who has this key will be able to view and edit pretty much anything in your spotify account until a new refresh key is generated.
+ **copy that to env file**. 
+
+**DON'T SHARE THIS REFRESH TOKEN OR PUSH IT TO REPO** it should already be ignored from git, but you may want to check to be sure. Anyone who has this key will be able to view and edit lots of data in your spotify account until a new refresh key is generated.
 
 Note: refresh token should last forever, so you should only need to do this once. But sometimes things act weird so this is an easy way to get a new one
 
