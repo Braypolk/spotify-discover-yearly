@@ -2,19 +2,19 @@
 
 if ! command -v go &> /dev/null
 then
-    echo "Golang not found, download here: https://golang.org/doc/install"
-    echo "Please install go, then run this script agian to ensure dependencies can be called"
+    echo "Golang not found. Install with package manager (ex: brew, apt, chocolatey) or download here: https://golang.org/doc/install and install"
+    echo "Then run this script agian to ensure dependencies can be called"
     exit 1
 fi
 
 if ! command -v node &> /dev/null
 then
-    echo "Node not found, download here: https://nodejs.org/en/download/"
-    echo "Please install npm/node, then run this script agian to ensure dependencies can be called"
+    echo "Node not found. Install with package manager (ex: brew, apt, chocolatey) or download here: https://nodejs.org/en/download/ and install"
+    echo "Then run this script agian to ensure dependencies can be called"
     exit 1
 elif ! command -v npm &> /dev/null
 then
-    echo "NPM not found, your node install may be broken. Download node here: https://nodejs.org/en/download/"
+    echo "NPM not found, your node install may be broken. Install with package manager (ex: brew, apt, chocolatey) or Download node here: https://nodejs.org/en/download/ and install"
     echo "Please fix the npm/node issue then run this script agian to ensure dependencies can be called"
     exit 1
 fi
