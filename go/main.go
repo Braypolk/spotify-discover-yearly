@@ -13,6 +13,7 @@ var BasicCreds string = ClientId + ":" + ClientSecret
 var ApiUrl string = "https://api.spotify.com/v1/"
 var UserId string = ""
 
+
 func main() {
 	var err error
 	UserId, err = GetUser()

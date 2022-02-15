@@ -69,3 +69,16 @@ func AddSongs(playlist_id string, songs map[string]string) error {
 	_, err := BuildRequest("POST", ApiUrl+"playlists/"+playlist_id+"/tracks?uris="+result, nil)
 	return err
 }
+
+func DeleteSongs(playlist_id string, songs map[string]string) error {
+	var ids []string
+
+	for id, _ := range songs {
+		songs[id] = url.QueryEscape(songs[id])
+		ids = append(ids, id)
+	}
+
+	result := strings.Join(ids, ",")
+	_, err := BuildRequest("DELETE", ApiUrl+"playlists/"+playlist_id+"/tracks?uris="+result, nil)
+	return err
+}
