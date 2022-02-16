@@ -1,11 +1,11 @@
 package main
 
 import (
-	// "fmt"
+	"encoding/json"
+	"math"
 	"net/url"
 	"strconv"
 	"strings"
-	"math"
 )
 
 func GetUser() (string, error) {
@@ -71,14 +71,26 @@ func AddSongs(playlist_id string, songs map[string]string) error {
 }
 
 func DeleteSongs(playlist_id string, songs map[string]string) error {
-	var ids []string
-
-	for id, _ := range songs {
-		songs[id] = url.QueryEscape(songs[id])
-		ids = append(ids, id)
+	type trackData struct {
+		Uri string `json:"uri"`
+	}
+	type deleteBody struct {
+		Tracks []trackData `json:"tracks"`
 	}
 
-	result := strings.Join(ids, ",")
-	_, err := BuildRequest("DELETE", ApiUrl+"playlists/"+playlist_id+"/tracks?uris="+result, nil)
+	body := deleteBody {
+		Tracks: []trackData{},
+	}
+	for id := range songs {
+		body.Tracks = append(body.Tracks, trackData{Uri: id})
+	}
+
+	// convert to json byte arr
+	buf, err := json.Marshal(body)
+	if err !=nil {
+		panic(err)
+	}
+
+	_, err = BuildRequest("DELETE", ApiUrl+"playlists/"+playlist_id+"/tracks", buf)
 	return err
 }
